@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 
-module.exports = async function afterPack(context) {
+async function afterPack(context) {
   if (context.electronPlatformName !== 'linux') return;
 
   const baseDir = path.join(
@@ -23,4 +23,7 @@ module.exports = async function afterPack(context) {
       fs.chmodSync(binPath, 0o755);
     }
   }
-};
+}
+
+afterPack.default = afterPack;
+module.exports = afterPack;
