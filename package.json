@@ -64,7 +64,8 @@
             "x64"
           ]
         }
-      ]
+      ],
+      "signAndEditExecutable": false
     },
     "nsis": {
       "artifactName": "VideoDurationCalculator-Setup.exe",
@@ -111,7 +112,7 @@
     "appImage": {
       "artifactName": "VideoDurationCalculator.AppImage"
     },
-    "afterPack": "build/afterPack.js"
+    "afterPack": "scripts/afterPack.js"
   },
   "allowScripts": {
     "@ffprobe-installer/linux-x64@5.2.0": true
