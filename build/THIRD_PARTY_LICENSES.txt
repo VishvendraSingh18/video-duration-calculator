@@ -1,0 +1,19 @@
+THIRD-PARTY SOFTWARE LICENSES
+
+1. FFmpeg / FFprobe
+This application bundles a standalone static FFprobe binary obtained through
+@ffprobe-installer/ffprobe (built from FFmpeg: https://ffmpeg.org/).
+FFmpeg is licensed under the GNU Lesser General Public License (LGPL) version 2.1
+or later, or the GNU General Public License (GPL) version 2 or later depending on
+build configuration. Complete license texts and source code availability notices
+are published at https://ffmpeg.org/legal.html.
+
+Note for Commercial/Proprietary Distribution:
+If you require strictly LGPL-only static binaries, replace the bundled binary with
+an LGPL-compiled FFprobe binary placed at:
+  - resources/bin/win32/ffprobe.exe
+  - resources/bin/linux/ffprobe
+The application automatically prioritizes binaries in resources/bin/<platform>/.
+
+2. Electron, React, Tailwind CSS, Lucide Icons
+Licensed under the MIT / ISC licenses. See package.json dependencies for full attribution.

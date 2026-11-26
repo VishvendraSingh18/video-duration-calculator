@@ -1,0 +1,120 @@
+{
+  "name": "video-duration-calculator",
+  "version": "1.0.0",
+  "description": "Cross-platform recursive MP4 folder duration calculator powered by FFprobe",
+  "author": "Video Duration Calculator Team",
+  "license": "MIT",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev:renderer": "vite --port 5173 --strictPort",
+    "dev:electron": "wait-on tcp:5173 && cross-env NODE_ENV=development electron .",
+    "dev": "concurrently -k -n renderer,electron \"npm run dev:renderer\" \"npm run dev:electron\"",
+    "build:renderer": "vite build",
+    "start": "npm run build:renderer && electron .",
+    "dist:win": "npm run build:renderer && electron-builder --win --x64",
+    "dist:linux": "npm run build:renderer && electron-builder --linux --x64",
+    "dist:dir": "npm run build:renderer && electron-builder --dir"
+  },
+  "dependencies": {
+    "@ffprobe-installer/ffprobe": "^2.1.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.5",
+    "@vitejs/plugin-react": "^5.0.0",
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "electron": "^45.5.0",
+    "electron-builder": "^26.18.1",
+    "lucide-react": "^1.80.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "tailwindcss": "^4.3.5",
+    "vite": "^8.3.8",
+    "wait-on": "^8.0.3"
+  },
+  "build": {
+    "appId": "com.videodurationcalculator.desktop",
+    "productName": "Video Duration Calculator",
+    "copyright": "Copyright © 2026 Video Duration Calculator",
+    "asar": true,
+    "asarUnpack": [
+      "node_modules/@ffprobe-installer/**"
+    ],
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json",
+      "build/THIRD_PARTY_LICENSES.txt"
+    ],
+    "extraResources": [
+      {
+        "from": "build/THIRD_PARTY_LICENSES.txt",
+        "to": "THIRD_PARTY_LICENSES.txt"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "artifactName": "VideoDurationCalculator-Setup.exe",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Video Duration Calculator",
+      "uninstallDisplayName": "Video Duration Calculator"
+    },
+    "linux": {
+      "category": "AudioVideo;Utility;",
+      "maintainer": "Video Duration Calculator Team <support@videodurationcalculator.local>",
+      "synopsis": "Recursive MP4 folder duration calculator",
+      "description": "Fast, accurate, offline desktop application for calculating combined durations of MP4 videos across deeply nested folders using FFprobe.",
+      "target": [
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "deb": {
+      "artifactName": "VideoDurationCalculator.deb",
+      "depends": [
+        "libgtk-3-0",
+        "libnotify4",
+        "libnss3",
+        "libxss1",
+        "libxtst6",
+        "xdg-utils",
+        "libatspi2.0-0",
+        "libuuid1"
+      ]
+    },
+    "appImage": {
+      "artifactName": "VideoDurationCalculator.AppImage"
+    },
+    "afterPack": "build/afterPack.js"
+  },
+  "allowScripts": {
+    "@ffprobe-installer/linux-x64@5.2.0": true
+  },
+  "homepage": "https://github.com/videodurationcalculator/video-duration-calculator"
+}
