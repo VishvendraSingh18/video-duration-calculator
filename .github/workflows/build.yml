@@ -5,8 +5,6 @@ on:
   push:
     branches:
       - main
-    tags:
-      - 'v*'
 
 jobs:
   build:
@@ -17,15 +15,18 @@ jobs:
           - os: windows-latest
             script: dist:win
             artifact_name: windows-installer
-            files: release/VideoDurationCalculator-Setup.exe
+            files: release/*.exe
           - os: ubuntu-latest
             script: dist:linux
             artifact_name: ubuntu-installers
             files: |
-              release/VideoDurationCalculator.deb
-              release/VideoDurationCalculator.AppImage
+              release/*.deb
+              release/*.AppImage
 
     runs-on: ${{ matrix.os }}
+
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: false
 
     steps:
       - name: Checkout repository
@@ -36,8 +37,11 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install dependencies (OS-specific FFprobe)
-        run: npm install --no-audit --no-fund
+      - name: Clean cross-OS lockfile and install dependencies
+        shell: bash
+        run: |
+          rm -f package-lock.json
+          npm install --no-audit --no-fund
 
       - name: Build production installer
         run: npm run ${{ matrix.script }}
@@ -47,3 +51,4 @@ jobs:
         with:
           name: ${{ matrix.artifact_name }}
           path: ${{ matrix.files }}
+          if-no-files-found: error
